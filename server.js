@@ -26,13 +26,23 @@ app.get('/', function(req, res) {
 
 app.get('/api/notes', function(req, res) {
     fs.readFile('db/db.json', 'utf-8', function(err, data) { 
-        console.log(data)
         return res.json(JSON.parse(data));
     })
 })
 
 app.post('/api/notes', function(req, res) {
+    var newNote = req.body;
+    fs.readFile('db/db.json', 'utf-8', function(err, data) {
+        var arr = JSON.parse(data);
+        arr.push(newNote);
 
+        fs.writeFile('db/db.json', JSON.stringify(arr), function(err) {
+            if (err) {
+                console.log(err);
+              }
+        })
+    })
+    return res.json('Note added!');
 })
 
 
