@@ -55,16 +55,16 @@ app.delete('/api/notes/:id', function(req, res) {
         var arr = JSON.parse(data);
 
         for (let i = 0; i < arr.length; i++) {
-            if (chosen === arr[i].id) {
-                arr.splice(arr[i], 1)
-                fs.writeFile('db/db.json', JSON.stringify(arr), function(err) {
-                    if (err) {
-                        console.log(err);
-                      }
-                })
-                return res.json('delete')
+            if (arr[i].id === chosen) {
+                arr.splice(i, 1);
             }
         }
+        fs.writeFile('db/db.json', JSON.stringify(arr), function(err) {
+            if (err) {
+                console.log(err);
+              }
+        })
+        return res.json('delete')
     })
 })
 
