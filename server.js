@@ -6,7 +6,7 @@ const { notEqual } = require('assert');
 
 // Assigns the server to port 8080 and stores the invocation of express within a variable.
 var app = express();
-var PORT = 8080;
+var PORT = process.env.PORT || 8080;
 
 // Middleware that translates objects sent via POST requests into a format that can be read and stored by the server.
 app.use(express.urlencoded({ extended: true }));
