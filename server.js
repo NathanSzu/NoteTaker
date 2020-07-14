@@ -2,6 +2,7 @@
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
+const { notEqual } = require('assert');
 
 // Assigns the server to port 8080 and stores the invocation of express within a variable.
 var app = express();
@@ -32,10 +33,13 @@ app.get('/api/notes', function(req, res) {
 
 app.post('/api/notes', function(req, res) {
     var newNote = req.body;
+    console.log(req.body)
     fs.readFile('db/db.json', 'utf-8', function(err, data) {
         var arr = JSON.parse(data);
         arr.push(newNote);
-
+        if (err) {
+            console.log(err);
+          }
         fs.writeFile('db/db.json', JSON.stringify(arr), function(err) {
             if (err) {
                 console.log(err);
@@ -43,6 +47,25 @@ app.post('/api/notes', function(req, res) {
         })
     })
     return res.json('Note added!');
+})
+
+app.delete('/api/notes/:id', function(req, res) {
+    var chosen = req.params.id;
+    fs.readFile('db/db.json', 'utf-8', function(err, data) {
+        var arr = JSON.parse(data);
+
+        for (let i = 0; i < arr.length; i++) {
+            if (chosen === arr[i].id) {
+                arr.splice(arr[i], 1)
+                fs.writeFile('db/db.json', JSON.stringify(arr), function(err) {
+                    if (err) {
+                        console.log(err);
+                      }
+                })
+                return res.json('delete')
+            }
+        }
+    })
 })
 
 
