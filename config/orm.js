@@ -1,4 +1,4 @@
-const connection = require('connection')
+var connection = require('connection')
 
 class ORM {
     constructor(connection){
@@ -22,4 +22,4 @@ class ORM {
 
 }
 
-module.exports = new ORM
+module.exports = new ORM(connection);
