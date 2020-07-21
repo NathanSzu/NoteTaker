@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const note = require('../models/note');
+const note = require('../models/notes');
 const path = require("path");
 
 router.use(express.urlencoded({ extended: true }));
@@ -26,10 +26,8 @@ router.get('/api/notes', (req, res) => {
   .catch(error => res.status(500).json(error))
 })
 
-router.delete('/api/notes:id', (req, res) => {
-  console.log("ROUTE ID: " + req.params.id)
+router.delete('/api/notes/:id', (req, res) => {
   var id = parseInt(req.params.id)
-  console.log(typeof id)
   note.deleteNote(id)
   .then(function(results){
   res.json('deleted')
